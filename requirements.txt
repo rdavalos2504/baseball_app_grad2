@@ -1,0 +1,4 @@
+fastapi==0.135.2
+pandas
+sqlmodel==0.0.37
+uvicorn==0.42.0

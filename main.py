@@ -15,7 +15,27 @@ async def get_years():
 @app.get("/teams")
 async def get_teams(year: int):
     with Session(engine) as session:
-        result = session.exec(select(Teams.name).where(Teams.yearID == year).order_by(Teams.name))
-        return result.all()
+        result = session.exec(
+            select(Teams.lgID, Teams.teamID, Teams.name)
+            .where(Teams.yearID == year)
+            .order_by(Teams.lgID, Teams.name)
+        )
+        leagues: dict[str, list[dict[str, str]]] = {}
+        for lg, team_id, name in result.all():
+            league = lg if lg else "Other"
+            leagues.setdefault(league, []).append({"teamID": team_id, "name": name})
+        return leagues
+
+@app.get("/players")
+async def get_players(year: int, teamID: str):
+    with Session(engine) as session:
+        result = session.exec(
+            select(People.nameFirst, People.nameLast)
+            .join(Batting, Batting.playerID == People.playerID)
+            .where(Batting.yearID == year, Batting.teamID == teamID)
+            .distinct()
+            .order_by(People.nameLast, People.nameFirst)
+        )
+        return [{"firstName": first, "lastName": last} for first, last in result.all()]
 
 app.mount("/", StaticFiles(directory="static", html=True), name="static")
