@@ -2,6 +2,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const select = document.getElementById("year-select");
     const teamsPanel = document.getElementById("teams-panel");
     const teamsContainer = document.getElementById("teams-container");
+    const playersPanel = document.getElementById("players-panel");
+    const playersHeading = document.getElementById("players-heading");
+    const playersList = document.getElementById("players-list");
 
     try {
         const response = await fetch("/years");
@@ -23,11 +26,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         const year = select.value;
         if (!year) {
             teamsPanel.hidden = true;
+            playersPanel.hidden = true;
             return;
         }
 
         teamsContainer.innerHTML = "<p class='loading'>Loading...</p>";
         teamsPanel.hidden = false;
+        playersPanel.hidden = true;
 
         try {
             const response = await fetch(`/teams?year=${year}`);
@@ -46,6 +51,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 teams.forEach(team => {
                     const li = document.createElement("li");
                     li.textContent = team.name;
+                    li.classList.add("team-item");
+                    li.addEventListener("click", () => loadPlayers(year, team.teamID, team.name));
                     ul.appendChild(li);
                 });
                 section.appendChild(ul);
@@ -56,4 +63,24 @@ document.addEventListener("DOMContentLoaded", async () => {
             teamsContainer.innerHTML = "<p class='loading'>Failed to load teams</p>";
         }
     });
+
+    async function loadPlayers(year, teamID, teamName) {
+        playersHeading.textContent = teamName;
+        playersList.innerHTML = "<li class='loading'>Loading...</li>";
+        playersPanel.hidden = false;
+
+        try {
+            const response = await fetch(`/players?year=${year}&teamID=${teamID}`);
+            const players = await response.json();
+
+            playersList.innerHTML = "";
+            players.forEach(player => {
+                const li = document.createElement("li");
+                li.textContent = `${player.firstName} ${player.lastName}`;
+                playersList.appendChild(li);
+            });
+        } catch {
+            playersList.innerHTML = "<li class='loading'>Failed to load players</li>";
+        }
+    }
 });

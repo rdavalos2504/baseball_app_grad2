@@ -173,6 +173,53 @@ main {
     border-bottom: none;
 }
 
+.team-item {
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+}
+
+.team-item:hover {
+    background: var(--primary);
+    color: #fff;
+}
+
+/* Players Panel */
+.players-panel {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--accent);
+    border-radius: 4px;
+    padding: 32px 40px;
+    width: 100%;
+    max-width: 440px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    align-self: flex-start;
+}
+
+.players-panel h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--primary);
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.players-panel ul {
+    list-style: none;
+}
+
+.players-panel li {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.95rem;
+}
+
+.players-panel li:last-child {
+    border-bottom: none;
+}
+
 .loading {
     text-align: center;
     color: #888;
