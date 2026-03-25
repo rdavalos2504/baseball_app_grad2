@@ -15,7 +15,15 @@ async def get_years():
 @app.get("/teams")
 async def get_teams(year: int):
     with Session(engine) as session:
-        result = session.exec(select(Teams.name).where(Teams.yearID == year).order_by(Teams.name))
-        return result.all()
+        result = session.exec(
+            select(Teams.lgID, Teams.name)
+            .where(Teams.yearID == year)
+            .order_by(Teams.lgID, Teams.name)
+        )
+        leagues: dict[str, list[str]] = {}
+        for lg, name in result.all():
+            league = lg if lg else "Other"
+            leagues.setdefault(league, []).append(name)
+        return leagues
 
 app.mount("/", StaticFiles(directory="static", html=True), name="static")

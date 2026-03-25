@@ -138,28 +138,45 @@ main {
     align-self: flex-start;
 }
 
-.teams-panel h2 {
-    font-size: 1.2rem;
+.league-section {
+    margin-bottom: 24px;
+}
+
+.league-section:last-child {
+    margin-bottom: 0;
+}
+
+.league-section h3 {
+    font-size: 1.1rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: var(--primary);
-    margin-bottom: 16px;
+    color: #fff;
+    background: var(--primary);
+    padding: 10px 14px;
+    border-radius: 4px;
+    margin-bottom: 8px;
     text-align: center;
 }
 
-.teams-panel ul {
+.league-section ul {
     list-style: none;
 }
 
-.teams-panel li {
+.league-section li {
     padding: 10px 12px;
     border-bottom: 1px solid var(--border);
     font-size: 0.95rem;
 }
 
-.teams-panel li:last-child {
+.league-section li:last-child {
     border-bottom: none;
+}
+
+.loading {
+    text-align: center;
+    color: #888;
+    padding: 16px;
 }
 
 /* Footer */
