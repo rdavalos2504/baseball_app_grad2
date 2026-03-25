@@ -43,9 +43,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 section.appendChild(heading);
 
                 const ul = document.createElement("ul");
-                teams.forEach(name => {
+                teams.forEach(team => {
                     const li = document.createElement("li");
-                    li.textContent = name;
+                    li.textContent = team.name;
                     ul.appendChild(li);
                 });
                 section.appendChild(ul);
